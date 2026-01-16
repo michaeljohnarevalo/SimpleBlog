@@ -3,7 +3,6 @@ import type { AppDispatch, RootState } from "../../app/store";
 import BlogCard from "../../components/BlogCard";
 import { deleteBlog, fetchBlog } from "../../app/blogThunks";
 import { useEffect } from "react";
-import Pagination from '@mui/material/Pagination';
 
 export default function BlogList(){
     const {blogs, loading} = useSelector((state:RootState)=> state.blogs);
