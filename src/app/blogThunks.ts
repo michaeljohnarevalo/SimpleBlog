@@ -13,6 +13,7 @@ export const fetchBlog = createAsyncThunk<{data:Blog[], total:number},{page:numb
     const { data, error,count } = await supabase
     .from('blogs')
     .select('*',{count:'exact'} )
+    .range(from,to)
     .order('created_at', { ascending: false })
     if (error){
         throw error

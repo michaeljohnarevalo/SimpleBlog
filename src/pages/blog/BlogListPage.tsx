@@ -14,6 +14,7 @@ export default function BlogList(){
     useEffect(()=>{
         dispatch(fetchBlog({page,pageSize}))
     },[dispatch,page,pageSize])
+    
     const handlePageChange=(e:any,page:number)=>{
         dispatch(setPage(page))
     }
