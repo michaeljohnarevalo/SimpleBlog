@@ -1,18 +1,26 @@
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch,  RootState } from "../../app/store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { editBlog } from "../../app/blogThunks";
 
 export default function EditBlog(){
-    const [title,setTitle] = useState('');
-    const [content, setContent] = useState('');
-    const loading = useSelector((state:RootState)=> state.blogs.loading)
+    const [ntitle,setTitle] = useState('');
+    const [ncontent, setContent] = useState('');
     const {id} = useParams<{id:string}>();
+    const loading = useSelector((state:RootState)=> state.blogs.loading)
+    const existdata = useSelector((state:RootState)=> state.blogs.blogs.find(b => b.id === id));
     const dispatch = useDispatch<AppDispatch>();
 
+    useEffect(()=>{
+        if(existdata){
+            setTitle(existdata.title)
+            setContent(existdata.content)
+        }
+    },[existdata])
+
     const handleUpdate=()=>{
-        dispatch(editBlog({title,content,id:id!}))
+        dispatch(editBlog({title:ntitle,content:ncontent,id:id!}))
     }
     if(loading) return <h1 className="text-center text-lg md:text-xl p-4 ">Editing...</h1>
         return (

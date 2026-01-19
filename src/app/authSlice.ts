@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { User } from "@supabase/supabase-js"; 
+import type { User } from "@supabase/supabase-js"; //hinahanap ko pa pero baka mismong supabase na
 
 interface AuthState{
     user : User | null;
@@ -14,7 +14,7 @@ export const authSlice = createSlice({
     initialState,
     reducers:{
         login:(state,action) =>{
-            state.user = action.payload; 
+            state.user = action.payload; // payloadaction https://react-redux.js.org/tutorials/typescript-quick-start
         },
         logout:(state) => {
             state.user = null;
@@ -22,6 +22,7 @@ export const authSlice = createSlice({
     }
 })
 
+// https://www.youtube.com/watch?v=mMzhWXr9ass - for reducers login
 
 
 export const {login,logout} = authSlice.actions;

@@ -1,4 +1,5 @@
-
+//https://redux.js.org/tutorials/quick-start
+// https://www.youtube.com/watch?v=-f1iAsrkyB0
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Navbar from './components/layout/Navbar'
 import LoginPage from './pages/auth/LoginPage'
