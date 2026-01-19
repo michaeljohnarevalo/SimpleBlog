@@ -3,15 +3,20 @@ import type { AppDispatch, RootState } from "../../app/store";
 import BlogCard from "../../components/BlogCard";
 import { deleteBlog, fetchBlog } from "../../app/blogThunks";
 import { useEffect } from "react";
+import { Pagination } from "@mui/material";
+import { setPage } from "../../app/blogSlice";
 
 export default function BlogList(){
-    const {blogs, loading} = useSelector((state:RootState)=> state.blogs);
+    const {blogs, loading,total,page,pageSize} = useSelector((state:RootState)=> state.blogs);
     const user = useSelector((state:RootState) => state.auth.user?.id)
     const  dispatch = useDispatch<AppDispatch>()
 
     useEffect(()=>{
-        dispatch(fetchBlog())
-    },[dispatch])
+        dispatch(fetchBlog({page,pageSize}))
+    },[dispatch,page,pageSize])
+    const handlePageChange=(e:any,page:number)=>{
+        dispatch(setPage(page))
+    }
 
     if(loading) return <h1 className="text-center text-lg md:text-xl p-4 ">Searching for blogs</h1>
     
@@ -26,6 +31,11 @@ export default function BlogList(){
                     onDelete={id=> dispatch(deleteBlog(id))}
                     />
                 ))}
+            </div>
+                       <div className="flex justify-center mt-2">
+            <Pagination count={total} page={page} onChange={handlePageChange}
+             
+            />
             </div>
         </div>
     )

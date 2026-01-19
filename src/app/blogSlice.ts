@@ -14,25 +14,37 @@ export interface Blog{
 
 interface BlogState{
     blogs:Blog[],
-    loading:boolean
+    loading:boolean,
+        total:number,
+    page:number,
+    pageSize:number,
+    
 }
 
 const initialState:BlogState = {
     blogs:[],
-    loading:false
+    loading:false,
+        total:0,
+    page:1,
+    pageSize:10,
 }
 
 const blogSlice= createSlice({
     name:'blogs',
     initialState,
-    reducers:{},
+    reducers:{          setPage:(state,action)=>{
+            state.page=action.payload
+            state.loading=true
+        }},
     extraReducers: builder =>{
         builder.addCase(fetchBlog.pending, state =>{
             state.loading = true;
         })   
         builder.addCase(fetchBlog.fulfilled, (state,action)=>{
             state.loading= false;
-            state.blogs = action.payload
+            state.blogs = action.payload.data
+            state.total = action.payload.total
+
         })
         builder.addCase(fetchBlog.rejected,state =>{
             state.loading= false;
@@ -76,5 +88,5 @@ const blogSlice= createSlice({
     }
 })
 
-
+export const {setPage} = blogSlice.actions;
 export default blogSlice.reducer

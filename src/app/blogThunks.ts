@@ -6,16 +6,21 @@ import   { type Blog} from './blogSlice'
 
 
 
-export const fetchBlog = createAsyncThunk<Blog[]>( 
-    'blogs/fetch', async()=>{
-    const { data, error } = await supabase
+export const fetchBlog = createAsyncThunk<{data:Blog[], total:number},{page:number,pageSize:number}>( 
+    'blogs/fetch', async({page,pageSize})=>{
+        const from = (page -  1) * pageSize;
+    const to = page * pageSize - 1;  
+    const { data, error,count } = await supabase
     .from('blogs')
-    .select('*')
+    .select('*',{count:'exact'} )
     .order('created_at', { ascending: false })
     if (error){
         throw error
         
-    } return data as Blog[];
+    } return {
+        data:data,
+        total:count ? Math.ceil(count/pageSize) : 0,
+    };
        
     }
 )
