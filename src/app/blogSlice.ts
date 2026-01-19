@@ -44,6 +44,7 @@ const blogSlice= createSlice({
         })
         builder.addCase(createBlog.fulfilled, (state,action) =>{
             state.loading = false;  
+             state.blogs.push(action.payload)
         })
                 builder.addCase(createBlog.rejected,state  =>{
             state.loading= false;
@@ -57,7 +58,7 @@ const blogSlice= createSlice({
          builder.addCase(editBlog.fulfilled,(state,action)=>{
             state.loading = false;
             const {id, title,content} = action.payload
-            const existBlog = state.blogs.find(b=>b.id === id)
+            const existBlog = state.blogs.find(b  =>  b.id === id)
             if(existBlog){
                 existBlog.title = title
                 existBlog.content = content
