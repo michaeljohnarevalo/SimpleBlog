@@ -22,6 +22,7 @@ export default function EditBlog(){
     const handleUpdate=()=>{
         dispatch(editBlog({title:ntitle,content:ncontent,id:id!}))
     }
+
     if(loading) return <h1 className="text-center text-lg md:text-xl p-4 ">Editing...</h1>
         return (
         <div className="flex flex-col items-center gap-y-2 px-4">
@@ -29,9 +30,10 @@ export default function EditBlog(){
             <input
             className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none" 
             onChange={e => setTitle(e.target.value)}
+            value={ntitle}
             placeholder="Title"
             />
-            <textarea onChange={e => setContent(e.target.value)} placeholder="Content"  className="w-full border rounded-lg px-3 py-2 h-40 focus:ring-2 focus:ring-blue-500 outline-none"/>
+            <textarea onChange={e => setContent(e.target.value)} value={ncontent} placeholder="Content"  className="w-full border rounded-lg px-3 py-2 h-40 focus:ring-2 focus:ring-blue-500 outline-none"/>
             <button onClick={handleUpdate} className="text-xs px-4 py-1 text-gray-500  border rounded-lg hover:text-blue-500 mb-4">Update</button>
             </div>
     )
