@@ -8,6 +8,7 @@ import BlogList from './pages/blog/BlogListPage'
 import ProtectedRoute from './components/layout/ProtectedRoute'
 import CreateBlog from './pages/blog/CreateBlog'
 import EditBlog from './pages/blog/EditBlog'
+import SinglePage from './pages/blog/SinglePage'
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
         <Route path='/'  element={<BlogList/>}/>
           <Route path='/login' element={<LoginPage/>}/>
           <Route path='/register' element={<RegisterPage/>}/>
+          <Route  path='/blog/:id' element={<SinglePage/>} />
           <Route
           path='/create'
           element={

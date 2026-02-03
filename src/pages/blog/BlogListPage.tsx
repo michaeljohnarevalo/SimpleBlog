@@ -33,9 +33,9 @@ export default function BlogList(){
                     />
                 ))}
             </div>
-                       <div className="flex justify-center mt-2">
+
+            <div className="flex justify-center mt-2">
             <Pagination count={total} page={page} onChange={handlePageChange}
-             
             />
             </div>
         </div>

@@ -18,7 +18,7 @@ export default function BlogCard({blog,currentId,onDelete}:BlogProps){
         return date.toLocaleDateString();
     }
     return(
-                <div className="bg-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition flex flex-col h-full ">
+        <div className="bg-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition flex flex-col h-full ">
             <h3  className="text-xl font-semibold mb-2 line-clamp-2">{blog.title}</h3>
             <p className="text-md text-gray-600 line-clamp-3 mb-4 flex-grow">{blog.content}</p>
             
@@ -30,7 +30,8 @@ export default function BlogCard({blog,currentId,onDelete}:BlogProps){
                     <Link to={`/edit/${blog.id}`} className="hover:text-blue-500">Edit</Link>
                     <button onClick={()=> onDelete(blog.id)} className="hover:text-red-500">Delete</button>
                     </>
-                )}
+                    )}
+                <Link to={`/blog/${blog.id}`} className="hover:text-green-500">Read more...</Link>
                 </div>
             </div>
         </div>

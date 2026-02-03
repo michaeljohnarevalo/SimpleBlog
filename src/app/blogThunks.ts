@@ -2,6 +2,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import  {supabase} from './supabase'
 import   { type Blog} from './blogSlice'
+import type { RootState } from "./store";
 
 
 
@@ -63,5 +64,42 @@ export const deleteBlog = createAsyncThunk(
     if(error)
         throw error
     return id
+    }
+)
+
+
+export const  fetchBlogId = createAsyncThunk<Blog, string>(
+    'blogs/fetchblogid', async(id) =>{
+        const {data, error} = await supabase
+        .from('blogs')
+        .select('*')
+        .eq('id',id)
+        .single()
+        if(error){
+            throw error
+        } return data
+    }
+) 
+
+export const uploadImage = createAsyncThunk<string,{file:File;blogId?:string},{state:RootState}>(
+    'blogs/upload', async({file, blogId}, {getState})=>{
+        const userId = getState().auth.user?.id
+        const folderPath = blogId ? `${userId}/blogs/${blogId}` : `${userId}/temp`;
+        const filename = `${file.name}-${Date.now()}`
+        const filePath = `${folderPath}/${filename}`; 
+        const {error} = await supabase
+        .storage
+        .from('images')
+        .upload(filePath,file) 
+
+        if(error){
+            throw error
+        }
+
+        const {data} = supabase
+        .storage
+        .from('images')
+        .getPublicUrl(filePath)
+        return data.publicUrl
     }
 )

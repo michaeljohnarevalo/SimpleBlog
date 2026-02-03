@@ -1,7 +1,7 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 
-import { createBlog, deleteBlog,editBlog,fetchBlog } from "./blogThunks";
+import { createBlog, deleteBlog,editBlog,fetchBlog,fetchBlogId,uploadImage } from "./blogThunks";
 
 
 export interface Blog{
@@ -10,33 +10,55 @@ export interface Blog{
     title:string,
     content:string,
     created_at:string,
+    image? : string | null,
 }
 
 interface BlogState{
     blogs:Blog[],
+    currentBlog: Blog | null,
     loading:boolean,
-        total:number,
+    total:number,
     page:number,
     pageSize:number,
-    
+    imageUrl: string | null;
 }
 
 const initialState:BlogState = {
     blogs:[],
+    currentBlog: null,
     loading:false,
-        total:0,
+    total:0,
     page:1,
     pageSize:10,
+    imageUrl:null
 }
 
 const blogSlice= createSlice({
     name:'blogs',
     initialState,
-    reducers:{          setPage:(state,action)=>{
+    reducers:{          
+        setPage:(state,action)=>{
             state.page=action.payload
             state.loading=true
         }},
     extraReducers: builder =>{
+
+        builder.addCase(uploadImage.pending, state=>{
+            state.loading=true;
+        })
+        builder.addCase(uploadImage.fulfilled,(state)=>{
+            state.loading = false
+        })
+        
+        builder.addCase(fetchBlogId.pending, state =>{
+            state.loading=true;
+            state.currentBlog = null;
+        })
+        builder.addCase(fetchBlogId.fulfilled, (state, action)=>{
+            state.loading =false;
+            state.currentBlog = action.payload
+        })
+
         builder.addCase(fetchBlog.pending, state =>{
             state.loading = true;
         })   
